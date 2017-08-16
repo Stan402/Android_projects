@@ -19,7 +19,7 @@ public class JavaGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		img2 = new Texture("background1.jpg");
+		img2 = new Texture("jon lee hooker.jpg");
 
 	}
 
