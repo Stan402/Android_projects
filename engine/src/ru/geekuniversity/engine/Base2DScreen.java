@@ -1,9 +1,16 @@
 package ru.geekuniversity.engine;
 
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
 public class Base2DScreen implements Screen{
+
+    protected final Game game;
+
+    public Base2DScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -34,6 +41,7 @@ public class Base2DScreen implements Screen{
     @Override
     public void hide() {
         System.out.println("hide");
+        dispose();
     }
 
     @Override
