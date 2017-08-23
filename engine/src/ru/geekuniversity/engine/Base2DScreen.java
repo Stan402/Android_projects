@@ -5,10 +5,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+
+import ru.geekuniversity.engine.math.MatrixUtils;
+import ru.geekuniversity.engine.math.Rect;
 
 public class Base2DScreen implements Screen, InputProcessor{
 
     protected final Game game;
+    protected Matrix4 transMat = new Matrix4().idt();
+    protected static final Rect oglRect = new Rect(0, 0, 1, 1);
 
     public Base2DScreen(Game game) {
         this.game = game;
@@ -28,6 +35,8 @@ public class Base2DScreen implements Screen, InputProcessor{
     @Override
     public void resize(int width, int height) {
         System.out.println("resize: width = " + width + " height = " + height);
+        Rect newSize = new Rect(0, 0, (float) height/width, 1);
+        MatrixUtils.calcTransitionMatrix(transMat, oglRect, newSize);
 
     }
 

@@ -27,11 +27,17 @@ public class MenuScreen extends Base2DScreen {
     }
 
     @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        batch.getProjectionMatrix().idt().mul(transMat);
+    }
+
+    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(textureCircle, -1f, -1f, 2f, 2f);
+        batch.draw(textureCircle, -1f, -0.5f, 1f, 1f);
         batch.end();
     }
 
