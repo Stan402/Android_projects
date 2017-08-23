@@ -2,7 +2,7 @@ package ru.geekbrains.java_games.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import ru.geekbrains.java_games.JavaGame;
+
 import ru.geekbrains.java_games.StarGame;
 
 public class DesktopLauncher {
