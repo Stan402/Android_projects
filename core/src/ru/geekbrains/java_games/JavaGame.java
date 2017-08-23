@@ -9,10 +9,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ru.geekuniversity.engine.Base2DScreen;
+
 public class JavaGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	Texture img2;
+	private Texture textureCircle;
+	private Base2DScreen base2DScreen;
 
 	
 	@Override
@@ -20,6 +24,7 @@ public class JavaGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		img2 = new Texture("jon lee hooker.jpg");
+		textureCircle = new Texture("circle.png");
 
 	}
 
@@ -30,6 +35,7 @@ public class JavaGame extends ApplicationAdapter {
 		batch.begin();
         batch.draw(img2, 0, 0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		batch.draw(img, 0, 0);
+		batch.draw(textureCircle, 0, 0);
 		batch.end();
 	}
 	
