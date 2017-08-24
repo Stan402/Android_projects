@@ -105,12 +105,13 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         Vector3 vec3 = getCoordinate(screenX, screenY);
-        System.out.println(String.format(Locale.US, "mouseMoved to: x = %.2f y = %.2f", vec3.x, vec3.y));
+      //  System.out.println(String.format(Locale.US, "mouseMoved to: x = %.2f y = %.2f", vec3.x, vec3.y));
         return super.mouseMoved(screenX, screenY);
     }
 
     @Override
     public boolean scrolled(int amount) {
+        System.out.println("mouseScrolled: " + amount);
         return super.scrolled(amount);
     }
 
