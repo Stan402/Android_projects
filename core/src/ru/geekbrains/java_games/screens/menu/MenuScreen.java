@@ -2,6 +2,7 @@ package ru.geekbrains.java_games.screens.menu;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -54,49 +55,68 @@ public class MenuScreen extends Base2DScreen {
 
     @Override
     public boolean keyDown(int keycode) {
+
+        System.out.println("keyDown: " + Input.Keys.toString(keycode));
+
         return super.keyDown(keycode);
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        System.out.println("keyUp: " + Input.Keys.toString(keycode));
         return super.keyUp(keycode);
     }
 
     @Override
     public boolean keyTyped(char character) {
+        System.out.println("keyTyped: " + character);
         return super.keyTyped(character);
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        float y = (float) (Gdx.graphics.getHeight() - screenY)/Gdx.graphics.getHeight() * 2f - 1f;
-        float x = (float) screenX/Gdx.graphics.getWidth() * 2f - 1f;
-        Vector3 vec3 = new Vector3(x, y, 0);
-        vec3 = vec3.mul(transMat3.inv());
-        transMat3.inv();
 
+        Vector3 vec3 = getCoordinate(screenX, screenY);
 
         System.out.println(String.format(Locale.US, "touchDown: x = %.2f y = %.2f", vec3.x, vec3.y));
-        return super.touchDown(screenX, screenY, pointer, button);
+        return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+
+        Vector3 vec3 = getCoordinate(screenX, screenY);
+
+        System.out.println(String.format(Locale.US, "touchUp: x = %.2f y = %.2f", vec3.x, vec3.y));
+
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+
+        Vector3 vec3 = getCoordinate(screenX, screenY);
+
+        System.out.println(String.format(Locale.US, "touchDragged to: x = %.2f y = %.2f", vec3.x, vec3.y));
+
         return super.touchDragged(screenX, screenY, pointer);
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        Vector3 vec3 = getCoordinate(screenX, screenY);
+        System.out.println(String.format(Locale.US, "mouseMoved to: x = %.2f y = %.2f", vec3.x, vec3.y));
         return super.mouseMoved(screenX, screenY);
     }
 
     @Override
     public boolean scrolled(int amount) {
         return super.scrolled(amount);
+    }
+
+    private Vector3 getCoordinate(int screenX, int screenY){
+        float y = (float) (Gdx.graphics.getHeight() - screenY)/Gdx.graphics.getHeight() * 2f - 1f;
+        float x = (float) screenX/Gdx.graphics.getWidth() * 2f - 1f;
+        return new Vector3(x, y, 0).mul(transMat3Inv);
     }
 }

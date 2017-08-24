@@ -15,8 +15,12 @@ import ru.geekuniversity.engine.math.Rect;
 public class Base2DScreen implements Screen, InputProcessor{
 
     protected final Game game;
+
     protected Matrix4 transMat = new Matrix4().idt();
     protected Matrix3 transMat3 = new Matrix3().idt();
+    protected Matrix4 transMatInv = new Matrix4().idt();
+    protected Matrix3 transMat3Inv = new Matrix3().idt();
+
     protected static final Rect oglRect = new Rect(0, 0, 1, 1);
 
     public Base2DScreen(Game game) {
@@ -40,6 +44,8 @@ public class Base2DScreen implements Screen, InputProcessor{
         Rect newSize = new Rect(0, 0, (float) height/width, 1);
         MatrixUtils.calcTransitionMatrix(transMat, oglRect, newSize);
         MatrixUtils.calcTransitionMatrix(transMat3, oglRect, newSize);
+        MatrixUtils.calcTransitionMatrix(transMatInv, newSize, oglRect);
+        MatrixUtils.calcTransitionMatrix(transMat3Inv, newSize, oglRect);
 
     }
 
