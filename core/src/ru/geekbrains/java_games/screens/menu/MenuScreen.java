@@ -6,17 +6,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Locale;
 
 import ru.geekuniversity.engine.Base2DScreen;
+import ru.geekuniversity.engine.Sprite2DTexture;
+import ru.geekuniversity.engine.sprites.Sprite;
 
 
 public class MenuScreen extends Base2DScreen {
-    SpriteBatch batch;
-    private Texture textureCircle;
+    private Sprite2DTexture textureCircle;
+    private TextureRegion textureRegion;
+    private Sprite circle;
 
     public MenuScreen(Game game) {
         super(game);
@@ -25,16 +29,9 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public void show() {
         super.show();
-        batch = new SpriteBatch();
-        batch.getProjectionMatrix().idt();
-        textureCircle = new Texture("circle.png");
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        batch.getProjectionMatrix().idt().mul(transMat);
+        textureCircle = new Sprite2DTexture("circle.png");
+        circle = new Sprite(new TextureRegion(textureCircle));
+        circle.setWidthProportion(0.67f);
     }
 
     @Override
@@ -42,15 +39,18 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(textureCircle, -1f, -0.5f, 1f, 1f);
+        circle.draw(batch);
         batch.end();
     }
 
     @Override
     public void dispose () {
-        batch.dispose();
         textureCircle.dispose();
         super.dispose();
     }
 
+    @Override
+    protected void touchDown(Vector2 touch, int pointer) {
+        System.out.println(touch);
+    }
 }
