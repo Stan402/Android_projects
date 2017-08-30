@@ -24,11 +24,12 @@ import ru.geekuniversity.engine.sprites.Sprite;
 public class MenuScreen extends Base2DScreen {
 
     private static final float STAR_WIDTH = 0.01f;
+    private static final int NUMBER_OF_STARS = 200;
 
     private Sprite2DTexture textureBackground;
     private TextureAtlas atlas;
     private Background background;
-    private Star star;
+    private Star[] stars = new Star[NUMBER_OF_STARS];
 
 
     public MenuScreen(Game game) {
@@ -42,22 +43,29 @@ public class MenuScreen extends Base2DScreen {
         atlas = new TextureAtlas("textures/mainAtlas.pack");
         background = new Background(new TextureRegion(textureBackground));
         TextureRegion regionStar = atlas.findRegion("star");
-        float vx = Rnd.nextFloat(-0.005f, 0.005f);
-        float vy = Rnd.nextFloat(-0.05f, -0.1f);
-        float starWidth = STAR_WIDTH * Rnd.nextFloat(0.75f, 1f);
-        star = new Star(regionStar, vx, vy, starWidth);
+        for (int i = 0; i < NUMBER_OF_STARS; i++) {
+
+
+            float vx = Rnd.nextFloat(-0.005f, 0.005f);
+            float vy = Rnd.nextFloat(-0.05f, -0.1f);
+            float starWidth = STAR_WIDTH * Rnd.nextFloat(0.75f, 1f);
+            stars[i] = new Star(regionStar, vx, vy, starWidth);
+        }
     }
 
     @Override
     protected void resize(Rect worldBounds) {
         background.resize(worldBounds);
-        star.resize(worldBounds);
+        for (int i = 0; i < NUMBER_OF_STARS; i++) {
+            stars[i].resize(worldBounds);
+        }
+
     }
 
 
     @Override
     protected void touchDown(Vector2 touch, int pointer) {
-        star.touchDown(touch, pointer);
+        //star.touchDown(touch, pointer);
     }
 
 
@@ -68,7 +76,10 @@ public class MenuScreen extends Base2DScreen {
     }
 
     private void update(float deltaTime) {
-        star.update(deltaTime);
+        for (int i = 0; i < NUMBER_OF_STARS; i++) {
+            stars[i].update(deltaTime);
+        }
+
     }
 
     private void draw() {
@@ -76,7 +87,9 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        star.draw(batch);
+        for (int i = 0; i < NUMBER_OF_STARS; i++) {
+            stars[i].draw(batch);
+        }
         batch.end();
     }
 
