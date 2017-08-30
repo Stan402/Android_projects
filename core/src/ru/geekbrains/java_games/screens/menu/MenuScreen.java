@@ -54,17 +54,24 @@ public class MenuScreen extends Base2DScreen {
         star.resize(worldBounds);
     }
 
+
+    @Override
+    protected void touchDown(Vector2 touch, int pointer) {
+        star.touchDown(touch, pointer);
+    }
+
+
     @Override
     public void render(float delta) {
         update(delta);
         draw();
     }
 
-    private void update(float deltaTime){
+    private void update(float deltaTime) {
         star.update(deltaTime);
     }
 
-    private void draw(){
+    private void draw() {
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -74,14 +81,9 @@ public class MenuScreen extends Base2DScreen {
     }
 
     @Override
-    public void dispose () {
+    public void dispose() {
         textureBackground.dispose();
         atlas.dispose();
         super.dispose();
-    }
-
-    @Override
-    protected void touchDown(Vector2 touch, int pointer) {
-        System.out.println(touch);
     }
 }
