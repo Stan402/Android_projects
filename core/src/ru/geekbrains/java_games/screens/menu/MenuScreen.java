@@ -14,13 +14,15 @@ import java.util.Locale;
 
 import ru.geekuniversity.engine.Base2DScreen;
 import ru.geekuniversity.engine.Sprite2DTexture;
+import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.sprites.Sprite;
 
 
 public class MenuScreen extends Base2DScreen {
-    private Sprite2DTexture textureCircle;
-    private TextureRegion textureRegion;
-    private Sprite circle;
+
+    private Sprite2DTexture textureBackground;
+    private Background background;
+
 
     public MenuScreen(Game game) {
         super(game);
@@ -29,9 +31,13 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public void show() {
         super.show();
-        textureCircle = new Sprite2DTexture("circle.png");
-        circle = new Sprite(new TextureRegion(textureCircle));
-        circle.setWidthProportion(0.67f);
+        textureBackground = new Sprite2DTexture("textures/bg.png");
+        background = new Background(new TextureRegion(textureBackground));
+    }
+
+    @Override
+    protected void resize(Rect worldBounds) {
+        background.resize(worldBounds);
     }
 
     @Override
@@ -39,13 +45,14 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        circle.draw(batch);
+        background.draw(batch);
+
         batch.end();
     }
 
     @Override
     public void dispose () {
-        textureCircle.dispose();
+        textureBackground.dispose();
         super.dispose();
     }
 
