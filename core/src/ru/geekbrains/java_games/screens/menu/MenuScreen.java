@@ -18,6 +18,7 @@ import ru.geekuniversity.engine.Base2DScreen;
 import ru.geekuniversity.engine.Sprite2DTexture;
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.math.Rnd;
+import ru.geekuniversity.engine.sprites.Button;
 import ru.geekuniversity.engine.sprites.Sprite;
 
 
@@ -30,6 +31,8 @@ public class MenuScreen extends Base2DScreen {
     private TextureAtlas atlas;
     private Background background;
     private Star[] stars = new Star[NUMBER_OF_STARS];
+    private Button btPlay;
+    private Button btExit;
 
 
     public MenuScreen(Game game) {
@@ -44,13 +47,15 @@ public class MenuScreen extends Base2DScreen {
         background = new Background(new TextureRegion(textureBackground));
         TextureRegion regionStar = atlas.findRegion("star");
         for (int i = 0; i < NUMBER_OF_STARS; i++) {
-
-
             float vx = Rnd.nextFloat(-0.005f, 0.005f);
             float vy = Rnd.nextFloat(-0.05f, -0.1f);
             float starWidth = STAR_WIDTH * Rnd.nextFloat(0.75f, 1f);
             stars[i] = new Star(regionStar, vx, vy, starWidth);
         }
+        TextureRegion regionBtPlay = atlas.findRegion("btPlay");
+        TextureRegion regionBtExit = atlas.findRegion("btExit");
+        btPlay = new Button(regionBtPlay, Button.BOTTOM_LEFT, 0f, 0f, 0.3f, true);
+        btExit = new Button(regionBtExit, Button.BOTTOM_RIGHT, 0.3f);
     }
 
     @Override
@@ -59,6 +64,8 @@ public class MenuScreen extends Base2DScreen {
         for (int i = 0; i < NUMBER_OF_STARS; i++) {
             stars[i].resize(worldBounds);
         }
+        btPlay.resize(worldBounds);
+        btExit.resize(worldBounds);
 
     }
 
@@ -90,6 +97,8 @@ public class MenuScreen extends Base2DScreen {
         for (int i = 0; i < NUMBER_OF_STARS; i++) {
             stars[i].draw(batch);
         }
+        btPlay.draw(batch);
+        btExit.draw(batch);
         batch.end();
     }
 
