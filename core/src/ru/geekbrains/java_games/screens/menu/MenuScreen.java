@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import ru.geekbrains.java_games.screens.stars.Star;
 import ru.geekuniversity.engine.Base2DScreen;
+import ru.geekuniversity.engine.ButtonListener;
 import ru.geekuniversity.engine.Sprite2DTexture;
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.math.Rnd;
@@ -22,10 +23,10 @@ import ru.geekuniversity.engine.sprites.Button;
 import ru.geekuniversity.engine.sprites.Sprite;
 
 
-public class MenuScreen extends Base2DScreen {
+public class MenuScreen extends Base2DScreen implements ButtonListener{
 
     private static final float STAR_WIDTH = 0.01f;
-    private static final int NUMBER_OF_STARS = 200;
+    private static final int NUMBER_OF_STARS = 300;
 
     private Sprite2DTexture textureBackground;
     private TextureAtlas atlas;
@@ -54,8 +55,8 @@ public class MenuScreen extends Base2DScreen {
         }
         TextureRegion regionBtPlay = atlas.findRegion("btPlay");
         TextureRegion regionBtExit = atlas.findRegion("btExit");
-        btPlay = new Button(regionBtPlay, Button.BOTTOM_LEFT, 0f, 0f, 0.3f, true);
-        btExit = new Button(regionBtExit, Button.BOTTOM_RIGHT, 0.3f);
+        btPlay = new Button("Play" ,regionBtPlay, this, Button.BOTTOM_LEFT, 0f, 0f, 0.3f, true);
+        btExit = new Button("Exit", regionBtExit, this, Button.BOTTOM_RIGHT, 0.3f);
     }
 
     @Override
@@ -69,12 +70,18 @@ public class MenuScreen extends Base2DScreen {
 
     }
 
-
     @Override
     protected void touchDown(Vector2 touch, int pointer) {
         //star.touchDown(touch, pointer);
+        btPlay.touchDown(touch, pointer);
+        btExit.touchDown(touch, pointer);
     }
 
+    @Override
+    protected void touchUp(Vector2 touch, int pointer) {
+        btPlay.touchUp(touch, pointer);
+        btExit.touchUp(touch, pointer);
+    }
 
     @Override
     public void render(float delta) {
@@ -108,4 +115,22 @@ public class MenuScreen extends Base2DScreen {
         atlas.dispose();
         super.dispose();
     }
+
+    @Override
+    public void onActivatedButton(Button button) {
+        System.out.println("Button " + button.getName() + " is activated");
+    }
+
+    @Override
+    public void onPushedButton(Button button) {
+        System.out.println("Button " + button.getName() + " is pushed");
+    }
+
+    @Override
+    public void onReleasedButton(Button button) {
+        System.out.println("Button " + button.getName() + " is released without activation");
+
+    }
+
+
 }
