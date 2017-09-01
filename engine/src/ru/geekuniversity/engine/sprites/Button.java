@@ -28,7 +28,21 @@ public class Button extends Sprite {
     private boolean isPushed;
     private int pointer;
 
-    public Button(String name, TextureRegion region, ButtonListener buttonListener, int place, float shiftHorizontal, float shiftVertical, float size, boolean isWidth) {
+    /**
+     * @param name - name of the Button
+     * @param region - TextureRegion of the Button
+     * @param buttonListener - interface implementation in charge of user's actions
+     * @param place - 4 int constants accepted to define corner of the screen where to place
+     *               the Button
+     * @param shiftHorizontal - set the gap from defined corner to the Button in fractions of 1
+     *                        as to screen Width
+     * @param shiftVertical  - set the gap from defined corner to the Button in fractions of 1
+     *                        as to screen Height
+     * @param size - set the size of the Button in fractions of 1 as to screen Height or Width depends on 'isWidth'
+     * @param isWidth - define size is related to Width (true) or Height (false)
+     */
+    public Button(String name, TextureRegion region, ButtonListener buttonListener, int place,
+                  float shiftHorizontal, float shiftVertical, float size, boolean isWidth) {
         super(region);
         this.name = name;
         this.buttonListener = buttonListener;
@@ -39,6 +53,16 @@ public class Button extends Sprite {
         this.place = place;
     }
 
+    /**
+     * The Button placed in the corner of the screen without any shifts.
+     * Size is set in fraction of Width.
+     * @param name - name of the Button
+     * @param region - TextureRegion of the Button
+     * @param buttonListener - interface implementation in charge of user's actions
+     * @param place - 4 int constants accepted to define corner of the screen where to place
+     *               the Button
+     * @param size - set the size of the Button in fractions of 1 as to screen Width
+     */
     public Button(String name, TextureRegion region, ButtonListener buttonListener,int place, float size) {
         super(region);
         this.name = name;

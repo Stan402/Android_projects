@@ -35,6 +35,12 @@ public class MenuScreen extends Base2DScreen implements ButtonListener{
     private Button btPlay;
     private Button btExit;
 
+    private TextureAtlas testAtlas;
+    private Button btOne;
+    private Button btTwo;
+    private Button btThree;
+
+
 
     public MenuScreen(Game game) {
         super(game);
@@ -57,6 +63,17 @@ public class MenuScreen extends Base2DScreen implements ButtonListener{
         TextureRegion regionBtExit = atlas.findRegion("btExit");
         btPlay = new Button("Play" ,regionBtPlay, this, Button.BOTTOM_LEFT, 0f, 0f, 0.3f, true);
         btExit = new Button("Exit", regionBtExit, this, Button.BOTTOM_RIGHT, 0.3f);
+
+        //testing extra atlas
+
+        testAtlas = new TextureAtlas("textures/testAtlas.pack");
+        TextureRegion regionBtOne = testAtlas.findRegion("number-1-button");
+        TextureRegion regionBtTwo = testAtlas.findRegion("number-2-button");
+        TextureRegion regionBtThree = testAtlas.findRegion("number-3-button");
+        btOne = new Button("One", regionBtOne, this, Button.TOP_RIGHT, 0f, 0f, 0.1f, false);
+        btTwo = new Button("Two", regionBtTwo, this, Button.TOP_RIGHT, 0f, 0.12f, 0.1f, false);
+        btThree = new Button("Three", regionBtThree, this, Button.TOP_RIGHT, 0f, 0.24f, 0.1f, false);
+
     }
 
     @Override
@@ -68,6 +85,10 @@ public class MenuScreen extends Base2DScreen implements ButtonListener{
         btPlay.resize(worldBounds);
         btExit.resize(worldBounds);
 
+        btOne.resize(worldBounds);
+        btTwo.resize(worldBounds);
+        btThree.resize(worldBounds);
+
     }
 
     @Override
@@ -75,12 +96,20 @@ public class MenuScreen extends Base2DScreen implements ButtonListener{
         //star.touchDown(touch, pointer);
         btPlay.touchDown(touch, pointer);
         btExit.touchDown(touch, pointer);
+
+        btOne.touchDown(touch, pointer);
+        btTwo.touchDown(touch, pointer);
+        btThree.touchDown(touch, pointer);
     }
 
     @Override
     protected void touchUp(Vector2 touch, int pointer) {
         btPlay.touchUp(touch, pointer);
         btExit.touchUp(touch, pointer);
+
+        btOne.touchUp(touch, pointer);
+        btTwo.touchUp(touch, pointer);
+        btThree.touchUp(touch, pointer);
     }
 
     @Override
@@ -106,6 +135,11 @@ public class MenuScreen extends Base2DScreen implements ButtonListener{
         }
         btPlay.draw(batch);
         btExit.draw(batch);
+
+        btOne.draw(batch);
+        btTwo.draw(batch);
+        btThree.draw(batch);
+
         batch.end();
     }
 
@@ -113,6 +147,7 @@ public class MenuScreen extends Base2DScreen implements ButtonListener{
     public void dispose() {
         textureBackground.dispose();
         atlas.dispose();
+        testAtlas.dispose();
         super.dispose();
     }
 
@@ -131,6 +166,4 @@ public class MenuScreen extends Base2DScreen implements ButtonListener{
         System.out.println("Button " + button.getName() + " is released without activation");
 
     }
-
-
 }
