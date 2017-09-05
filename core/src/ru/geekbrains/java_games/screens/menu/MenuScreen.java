@@ -2,34 +2,33 @@ package ru.geekbrains.java_games.screens.menu;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-
-import java.util.Locale;
 
 import ru.geekbrains.java_games.screens.stars.Star;
 import ru.geekuniversity.engine.Base2DScreen;
 import ru.geekuniversity.engine.Sprite2DTexture;
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.math.Rnd;
-import ru.geekuniversity.engine.sprites.Sprite;
+import ru.geekuniversity.engine.ui.ActionListener;
 
 
-public class MenuScreen extends Base2DScreen {
+public class MenuScreen extends Base2DScreen implements ActionListener{
 
-    private static final float STAR_WIDTH = 0.01f;
-    private static final int NUMBER_OF_STARS = 200;
+    private static final float STAR_HEIGHT = 0.01f;
+    private static final int STAR_COUNT = 250;
+
+    private static final float BUTTONS_HEIGHT = 0.15f;
+    private static final float BUTTONS_PRESS_SCALE = 0.9f;
 
     private Sprite2DTexture textureBackground;
     private TextureAtlas atlas;
     private Background background;
-    private Star[] stars = new Star[NUMBER_OF_STARS];
+    private Star[] stars = new Star[STAR_COUNT];
+    private ButtonExit buttonExit;
+    private ButtonNewGame buttonNewGame;
 
 
     public MenuScreen(Game game) {
@@ -40,32 +39,56 @@ public class MenuScreen extends Base2DScreen {
     public void show() {
         super.show();
         textureBackground = new Sprite2DTexture("textures/bg.png");
-        atlas = new TextureAtlas("textures/mainAtlas.pack");
+        atlas = new TextureAtlas("textures/menuAtlas.tpack");
         background = new Background(new TextureRegion(textureBackground));
         TextureRegion regionStar = atlas.findRegion("star");
-        for (int i = 0; i < NUMBER_OF_STARS; i++) {
-
-
+        for (int i = 0; i < STAR_COUNT; i++) {
             float vx = Rnd.nextFloat(-0.005f, 0.005f);
             float vy = Rnd.nextFloat(-0.05f, -0.1f);
-            float starWidth = STAR_WIDTH * Rnd.nextFloat(0.75f, 1f);
-            stars[i] = new Star(regionStar, vx, vy, starWidth);
+            float starHeight = STAR_HEIGHT * Rnd.nextFloat(0.75f, 1f);
+            stars[i] = new Star(regionStar, vx, vy, starHeight);
         }
+        buttonNewGame = new ButtonNewGame(atlas, this, BUTTONS_PRESS_SCALE);
+        buttonNewGame.setHeightProportion(BUTTONS_HEIGHT);
+        buttonExit = new ButtonExit(atlas, this, BUTTONS_PRESS_SCALE);
+        buttonExit.setHeightProportion(BUTTONS_HEIGHT);
     }
 
     @Override
     protected void resize(Rect worldBounds) {
         background.resize(worldBounds);
-        for (int i = 0; i < NUMBER_OF_STARS; i++) {
+        for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].resize(worldBounds);
         }
+        buttonExit.resize(worldBounds);
+        buttonNewGame.resize(worldBounds);
 
     }
 
 
     @Override
     protected void touchDown(Vector2 touch, int pointer) {
-        //star.touchDown(touch, pointer);
+        buttonExit.touchDown(touch, pointer);
+        buttonNewGame.touchDown(touch, pointer);
+    }
+
+    @Override
+    protected void touchUp(Vector2 touch, int pointer) {
+        buttonExit.touchUp(touch, pointer);
+        buttonNewGame.touchUp(touch, pointer);
+    }
+
+    @Override
+    public void actionPerformed(Object src) {
+
+        if (src == buttonExit) {
+            Gdx.app.exit();
+        } else if (src == buttonNewGame){
+            System.out.println("new screen");
+        }
+        else {
+            throw new RuntimeException("Unknown src = " + src);
+        }
     }
 
 
@@ -76,7 +99,7 @@ public class MenuScreen extends Base2DScreen {
     }
 
     private void update(float deltaTime) {
-        for (int i = 0; i < NUMBER_OF_STARS; i++) {
+        for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].update(deltaTime);
         }
 
@@ -87,9 +110,11 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        for (int i = 0; i < NUMBER_OF_STARS; i++) {
+        for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].draw(batch);
         }
+        buttonExit.draw(batch);
+        buttonNewGame.draw(batch);
         batch.end();
     }
 
@@ -99,4 +124,6 @@ public class MenuScreen extends Base2DScreen {
         atlas.dispose();
         super.dispose();
     }
+
+
 }

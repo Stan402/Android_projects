@@ -14,10 +14,10 @@ public class Star extends Sprite {
     private Rect worldBounds;
 
 
-    public Star(TextureRegion region, float vx, float vy, float width) {
+    public Star(TextureRegion region, float vx, float vy, float height) {
         super(region);
         v.set(vx, vy);
-        setWidthProportion(width);
+        setHeightProportion(height);
     }
 
     @Override
