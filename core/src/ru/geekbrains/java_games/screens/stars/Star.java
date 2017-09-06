@@ -10,7 +10,7 @@ import ru.geekuniversity.engine.sprites.Sprite;
 
 public class Star extends Sprite {
 
-    private final Vector2 v = new Vector2();
+    final Vector2 v = new Vector2();
     private Rect worldBounds;
 
 
@@ -48,4 +48,5 @@ public class Star extends Sprite {
         if (getTop() < worldBounds.getBottom()) setBottom(worldBounds.getTop());
         if (getBottom() > worldBounds.getTop()) setTop(worldBounds.getBottom());
     }
+
 }

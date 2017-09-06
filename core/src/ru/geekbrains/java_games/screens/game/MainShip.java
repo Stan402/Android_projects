@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.sprites.Sprite;
 
-class MainShip extends Sprite{
+public class MainShip extends Sprite{
 
     private static final float SHIP_HEIGHT = 0.15f;
     private static final float BOTTOM_MARGIN = 0.05f;
@@ -17,7 +17,7 @@ class MainShip extends Sprite{
     private final Vector2 v0 = new Vector2(0.5f, 0f);
     private final Vector2 v = new Vector2();
 
-     MainShip(TextureAtlas atlas) {
+     public MainShip(TextureAtlas atlas) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         setHeightProportion(SHIP_HEIGHT);
     }
@@ -119,5 +119,7 @@ class MainShip extends Sprite{
         if (getRight() > worldBounds.getRight()) setRight(worldBounds.getRight());
     }
 
-
+    public Vector2 getV() {
+        return v;
+    }
 }

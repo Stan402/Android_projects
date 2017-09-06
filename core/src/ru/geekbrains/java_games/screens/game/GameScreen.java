@@ -9,16 +9,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.java_games.Background;
+import ru.geekbrains.java_games.screens.stars.Star;
+import ru.geekbrains.java_games.screens.stars.TrackingStar;
 import ru.geekuniversity.engine.Base2DScreen;
 import ru.geekuniversity.engine.Sprite2DTexture;
 import ru.geekuniversity.engine.math.Rect;
+import ru.geekuniversity.engine.math.Rnd;
 
 public class GameScreen extends Base2DScreen{
+
+    private static final float STAR_HEIGHT = 0.01f;
+    private static final int STAR_COUNT = 250;
+    private static final float STAR_RELATIVE_MOVEMENT = - 0.5f;
 
     private Background background;
     private Sprite2DTexture textureBackground;
     private TextureAtlas atlas;
     private MainShip mainShip;
+    private TrackingStar[] stars = new TrackingStar[STAR_COUNT];
 
     public GameScreen(Game game) {
         super(game);
@@ -31,12 +39,21 @@ public class GameScreen extends Base2DScreen{
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
         background = new Background(new TextureRegion(textureBackground));
         mainShip = new MainShip(atlas);
+        for (int i = 0; i < STAR_COUNT; i++) {
+            float vx = Rnd.nextFloat(-0.005f, 0.005f);
+            float vy = Rnd.nextFloat(-0.05f, -0.1f);
+            float starHeight = STAR_HEIGHT * Rnd.nextFloat(0.75f, 1f);
+            stars[i] = new TrackingStar(atlas, vx, vy, starHeight, mainShip, STAR_RELATIVE_MOVEMENT);
+        }
     }
 
     @Override
     protected void resize(Rect worldBounds) {
         background.resize(worldBounds);
         mainShip.resize(worldBounds);
+        for (int i = 0; i < STAR_COUNT; i++) {
+            stars[i].resize(worldBounds);
+        }
     }
 
     @Override
@@ -71,6 +88,9 @@ public class GameScreen extends Base2DScreen{
 
     private void update(float deltaTime) {
         mainShip.update(deltaTime);
+        for (int i = 0; i < STAR_COUNT; i++) {
+            stars[i].update(deltaTime);
+        }
 
     }
 
@@ -88,6 +108,9 @@ public class GameScreen extends Base2DScreen{
         batch.begin();
         background.draw(batch);
         mainShip.draw(batch);
+        for (int i = 0; i < STAR_COUNT; i++) {
+            stars[i].draw(batch);
+        }
         batch.end();
     }
 
