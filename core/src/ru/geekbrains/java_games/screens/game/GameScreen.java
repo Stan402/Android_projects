@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.java_games.Background;
+import ru.geekbrains.java_games.pools.BulletPool;
 import ru.geekbrains.java_games.screens.stars.Star;
 import ru.geekbrains.java_games.screens.stars.TrackingStar;
 import ru.geekuniversity.engine.Base2DScreen;
@@ -20,6 +21,8 @@ public class GameScreen extends Base2DScreen{
 
     private static final float STAR_HEIGHT = 0.01f;
     private static final int STAR_COUNT = 50;
+
+    private final BulletPool bulletPool = new BulletPool();
 
     private Background background;
     private Sprite2DTexture textureBackground;
@@ -37,7 +40,7 @@ public class GameScreen extends Base2DScreen{
         textureBackground = new Sprite2DTexture("textures/bg.png");
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
         background = new Background(new TextureRegion(textureBackground));
-        mainShip = new MainShip(atlas);
+        mainShip = new MainShip(atlas, bulletPool);
 
         TextureRegion starRegion = atlas.findRegion("star");
         for (int i = 0; i < STAR_COUNT; i++) {
@@ -88,11 +91,11 @@ public class GameScreen extends Base2DScreen{
     }
 
     private void update(float deltaTime) {
-        mainShip.update(deltaTime);
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].update(deltaTime);
         }
-
+        bulletPool.updateActiveSprites(deltaTime);
+        mainShip.update(deltaTime);
     }
 
     private void checkCollisions(){
@@ -100,7 +103,7 @@ public class GameScreen extends Base2DScreen{
     }
 
     private void deleteAllDestroyed(){
-
+        bulletPool.freeAllDestroyedActiveObjects();
     }
 
     private void draw() {
@@ -108,10 +111,11 @@ public class GameScreen extends Base2DScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        mainShip.draw(batch);
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].draw(batch);
         }
+        bulletPool.drawActiveObjects(batch);
+        mainShip.draw(batch);
         batch.end();
     }
 
@@ -119,6 +123,7 @@ public class GameScreen extends Base2DScreen{
     public void dispose() {
         textureBackground.dispose();
         atlas.dispose();
+        bulletPool.dispose();
         super.dispose();
     }
 }

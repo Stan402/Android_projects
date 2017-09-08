@@ -5,26 +5,34 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import ru.geekbrains.java_games.Ship;
+import ru.geekbrains.java_games.pools.BulletPool;
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.sprites.Sprite;
 
-class MainShip extends Sprite{
+class MainShip extends Ship{
 
     private static final float SHIP_HEIGHT = 0.15f;
     private static final float BOTTOM_MARGIN = 0.05f;
 
-    private Rect worldBounds;
-    private final Vector2 v0 = new Vector2(0.5f, 0f);
-    private final Vector2 v = new Vector2();
 
-     MainShip(TextureAtlas atlas) {
+    private final Vector2 v0 = new Vector2(0.5f, 0f);
+
+
+     MainShip(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
+         this.bulletPool = bulletPool;
         setHeightProportion(SHIP_HEIGHT);
+         bulletRegion = atlas.findRegion("bulletMainShip");
+         bulletHeight = 0.01f;
+         reloadInterval = 0.15f;
+         bulletV.set(0f, 0.5f);
+         bulletDamage = 1;
     }
 
     @Override
     public void resize(Rect worldBounds) {
-        this.worldBounds = worldBounds;
+        super.resize(worldBounds);
         setBottom(worldBounds.getBottom() + BOTTOM_MARGIN);
     }
 
@@ -74,7 +82,6 @@ class MainShip extends Sprite{
                 moveRight();
                 break;
             case Input.Keys.UP:
-                frame = 1;
                 break;
         }
 
@@ -93,7 +100,7 @@ class MainShip extends Sprite{
                 if (pressedLeft) moveLeft(); else stop();
                 break;
             case Input.Keys.UP:
-                frame = 0;
+                shoot();
                 break;
         }
     }
@@ -115,6 +122,11 @@ class MainShip extends Sprite{
     @Override
     public void update(float deltaTime) {
         pos.mulAdd(v, deltaTime);
+        reloadTimer += deltaTime;
+        if (reloadTimer >= reloadInterval){
+            reloadTimer = 0f;
+            shoot();
+        }
         if (getRight() > worldBounds.getRight()){
             setRight(worldBounds.getRight());
             stop();
