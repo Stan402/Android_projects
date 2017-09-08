@@ -35,6 +35,7 @@ public class GameScreen extends Base2DScreen{
     private TrackingStar[] stars = new TrackingStar[STAR_COUNT];
 
     private Sound sndExplosion;
+    private Rect worldBounds;
 
     public GameScreen(Game game) {
         super(game);
@@ -63,6 +64,7 @@ public class GameScreen extends Base2DScreen{
 
     @Override
     protected void resize(Rect worldBounds) {
+        this.worldBounds = worldBounds;
         background.resize(worldBounds);
         mainShip.resize(worldBounds);
         for (int i = 0; i < STAR_COUNT; i++) {
@@ -74,7 +76,7 @@ public class GameScreen extends Base2DScreen{
     @Override
     protected void touchDown(Vector2 touch, int pointer) {
         mainShip.touchDown(touch, pointer);
-        Explosion explosion =explosionPool.obtain();
+        Explosion explosion = explosionPool.obtain();
         explosion.set(0.1f, touch);
     }
 
@@ -103,6 +105,9 @@ public class GameScreen extends Base2DScreen{
         draw();
     }
 
+    private final float explosionsInterval = 3.0f;
+    private float explosionsTimer;
+
     private void update(float deltaTime) {
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].update(deltaTime);
@@ -110,6 +115,21 @@ public class GameScreen extends Base2DScreen{
         bulletPool.updateActiveSprites(deltaTime);
         explosionPool.updateActiveSprites(deltaTime);
         mainShip.update(deltaTime);
+
+        explosionsTimer += deltaTime;
+        if (explosionsTimer >= explosionsInterval){
+            explosionsTimer = 0f;
+            boom();
+        }
+    }
+
+    private void boom(){
+        float x = ((float)Math.random() - 0.5f) * worldBounds.getWidth();
+        float y = ((float) Math.random() - 0.5f) * worldBounds.getHeight();
+        Vector2 vector2 = new Vector2();
+        vector2.set(x, y);
+        Explosion explosion = explosionPool.obtain();
+        explosion.set(0.1f, vector2);
     }
 
     private void checkCollisions(){
