@@ -3,6 +3,7 @@ package ru.geekbrains.java_games.screens.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -33,6 +34,8 @@ public class GameScreen extends Base2DScreen{
     private MainShip mainShip;
     private TrackingStar[] stars = new TrackingStar[STAR_COUNT];
 
+    private Sound sndExplosion;
+
     public GameScreen(Game game) {
         super(game);
     }
@@ -42,7 +45,9 @@ public class GameScreen extends Base2DScreen{
         super.show();
         textureBackground = new Sprite2DTexture("textures/bg.png");
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
-        explosionPool = new ExplosionPool(atlas);
+
+        sndExplosion = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
+        explosionPool = new ExplosionPool(atlas, sndExplosion);
 
         background = new Background(new TextureRegion(textureBackground));
         mainShip = new MainShip(atlas, bulletPool);
@@ -63,13 +68,14 @@ public class GameScreen extends Base2DScreen{
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].resize(worldBounds);
         }
-        Explosion explosion =explosionPool.obtain();
-        explosion.set(0.1f, worldBounds.pos);
+
     }
 
     @Override
     protected void touchDown(Vector2 touch, int pointer) {
         mainShip.touchDown(touch, pointer);
+        Explosion explosion =explosionPool.obtain();
+        explosion.set(0.1f, touch);
     }
 
     @Override
@@ -135,6 +141,7 @@ public class GameScreen extends Base2DScreen{
         textureBackground.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        sndExplosion.dispose();
         super.dispose();
     }
 }
