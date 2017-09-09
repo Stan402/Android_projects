@@ -63,6 +63,6 @@ public class EnemyType {
     public void setRandomEnemy(Enemy enemy, TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds){
         Vector2 v = new Vector2(0, - Rnd.nextFloat(minSpeed, maxSpeed));
         float reloadTime = Rnd.nextFloat(minReloadTime, maxReloadTime);
-        enemy.set(atlas,bulletPool,worldBounds, this,v, reloadTime);
+        enemy.set(atlas, bulletPool, worldBounds, this, v, reloadTime);
     }
 }

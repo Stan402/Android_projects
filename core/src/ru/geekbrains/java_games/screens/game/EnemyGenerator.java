@@ -35,12 +35,9 @@ public class EnemyGenerator {
 
     private static final ArrayList<EnemyType> enemyTypes = new ArrayList<EnemyType>();
     static {
-        EnemyType type1 = new EnemyType("enemy0", 0.10f, 0.15f, 1f, 1.75f, 0.12f, 1, 1, 1);
-        EnemyType type2 = new EnemyType("enemy1", 0.13f, 0.20f, 0.8f, 1.2f, 0.10f, 1, 1, 2);
-        EnemyType type3 = new EnemyType("enemy2", 0.08f, 0.12f, 0.7f, 0.9f, 0.15f, 1, 2, 3);
-        enemyTypes.add(type1);
-        enemyTypes.add(type2);
-        enemyTypes.add(type3);
+        enemyTypes.add(new EnemyType("enemy0", 0.10f, 0.15f, 1f, 1.75f, 0.12f, 1, 1, 1));
+        enemyTypes.add(new EnemyType("enemy1", 0.13f, 0.20f, 0.8f, 1.2f, 0.10f, 1, 1, 2));
+        enemyTypes.add(new EnemyType("enemy2", 0.08f, 0.12f, 0.7f, 0.9f, 0.15f, 1, 2, 3));
     }
 
     private final EnemyPool enemyPool;

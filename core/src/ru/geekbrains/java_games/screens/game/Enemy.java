@@ -12,37 +12,33 @@ import ru.geekuniversity.engine.utils.Regions;
 
 public class Enemy extends Ship {
 
-    //private static final int ENEMY_TYPE_ONE = 0;
-    //private static final int ENEMY_TYPE_TWO = 1;
-    //private static final int ENEMY_TYPE_THREE = 2;
-
-    //private float shipHeight;
-    //private int health;
     private EnemyType enemyType;
 
     public Enemy() {
-
     }
 
-    public void set(TextureAtlas atlas,  BulletPool bulletPool, Rect worldBounds,
-                    EnemyType enemyType, Vector2 v, float reloadInterval){
+    public void set(TextureAtlas atlas,
+                    BulletPool bulletPool,
+                    Rect worldBounds,
+                    EnemyType enemyType,
+                    Vector2 v,
+                    float reloadInterval) {
+
         this.bulletPool = bulletPool;
-      //  this.shipHeight = enemyType.getSize();
         this.worldBounds = worldBounds;
         this.enemyType = enemyType;
 
         bulletRegion = atlas.findRegion("bulletEnemy");
 
-                regions = Regions.split(atlas.findRegion(enemyType.getRegionName()) ,1, 2, 2);
-                bulletHeight = 0.01f;
-                this.reloadInterval = reloadInterval;
-                bulletV.set(0f, -0.5f);
-                bulletDamage = enemyType.getBulletDamage();
-               // health = enemyType.getHealth();
+        regions = Regions.split(atlas.findRegion(enemyType.getRegionName()), 1, 2, 2);
+        bulletHeight = 0.01f;
+        this.reloadInterval = reloadInterval;
+        bulletV.set(0f, -0.5f);
+        bulletDamage = enemyType.getBulletDamage();
 
         setHeightProportion(enemyType.getSize());
         setTop(this.worldBounds.getTop());
-        float shift = (float)Math.random() * (this.worldBounds.getWidth() - getWidth());
+        float shift = (float) Math.random() * (this.worldBounds.getWidth() - getWidth());
         setLeft(this.worldBounds.getLeft() + shift);
         this.v.set(v);
     }
@@ -62,6 +58,5 @@ public class Enemy extends Ship {
             shoot();
         }
         if (isOutside(worldBounds)) destroy();
-
     }
 }
