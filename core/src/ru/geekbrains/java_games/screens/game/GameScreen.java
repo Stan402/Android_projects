@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.java_games.Background;
 import ru.geekbrains.java_games.Explosion;
 import ru.geekbrains.java_games.pools.BulletPool;
+import ru.geekbrains.java_games.pools.EnemyPool;
 import ru.geekbrains.java_games.pools.ExplosionPool;
 import ru.geekbrains.java_games.screens.stars.Star;
 import ru.geekbrains.java_games.screens.stars.TrackingStar;
@@ -26,6 +27,7 @@ public class GameScreen extends Base2DScreen{
     private static final int STAR_COUNT = 50;
 
     private final BulletPool bulletPool = new BulletPool();
+    private final EnemyPool enemyPool = new EnemyPool();
     private ExplosionPool explosionPool;
 
     private Background background;
@@ -33,6 +35,7 @@ public class GameScreen extends Base2DScreen{
     private TextureAtlas atlas;
     private MainShip mainShip;
     private TrackingStar[] stars = new TrackingStar[STAR_COUNT];
+    private EnemyGenerator enemyGenerator;
 
     private Sound sndExplosion;
     private Rect worldBounds;
@@ -52,6 +55,8 @@ public class GameScreen extends Base2DScreen{
 
         background = new Background(new TextureRegion(textureBackground));
         mainShip = new MainShip(atlas, bulletPool);
+        enemyGenerator = new EnemyGenerator(atlas, enemyPool, bulletPool);
+
 
         TextureRegion starRegion = atlas.findRegion("star");
         for (int i = 0; i < STAR_COUNT; i++) {
@@ -70,6 +75,7 @@ public class GameScreen extends Base2DScreen{
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].resize(worldBounds);
         }
+        enemyGenerator.resize(worldBounds);
 
     }
 
@@ -114,7 +120,9 @@ public class GameScreen extends Base2DScreen{
         }
         bulletPool.updateActiveSprites(deltaTime);
         explosionPool.updateActiveSprites(deltaTime);
+        enemyPool.updateActiveSprites(deltaTime);
         mainShip.update(deltaTime);
+        enemyGenerator.update(deltaTime);
 
         explosionsTimer += deltaTime;
         if (explosionsTimer >= explosionsInterval){
@@ -139,6 +147,7 @@ public class GameScreen extends Base2DScreen{
     private void deleteAllDestroyed(){
         bulletPool.freeAllDestroyedActiveObjects();
         explosionPool.freeAllDestroyedActiveObjects();
+        enemyPool.freeAllDestroyedActiveObjects();
     }
 
     private void draw() {
@@ -151,6 +160,7 @@ public class GameScreen extends Base2DScreen{
         }
         bulletPool.drawActiveObjects(batch);
         explosionPool.drawActiveObjects(batch);
+        enemyPool.drawActiveObjects(batch);
         mainShip.draw(batch);
         batch.end();
     }
@@ -161,6 +171,7 @@ public class GameScreen extends Base2DScreen{
         textureBackground.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        enemyPool.dispose();
         sndExplosion.dispose();
         super.dispose();
     }

@@ -6,9 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.sprites.Sprite;
 
-/**
- * Created by stan on 08/09/2017.
- */
 
 public class Bullet extends Sprite {
 

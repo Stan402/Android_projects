@@ -22,7 +22,7 @@ public abstract class SpritesPool<T extends Sprite> {
             object = freeObjects.remove(freeObjects.size() - 1);
         }
         activeObjects.add(object);
-
+        debugLog();
         return object;
     }
 

@@ -17,6 +17,10 @@ public class Ship extends Sprite {
     protected TextureRegion bulletRegion;
     //protected Sound bulletSound;
 
+    public Ship(){
+
+    }
+
     public Ship(TextureRegion region, int rows, int cols, int frames) {
         super(region, rows, cols, frames);
     }
