@@ -11,8 +11,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.java_games.common.Background;
-import ru.geekbrains.java_games.common.explosions.Explosion;
+import ru.geekbrains.java_games.common.enemies.EnemiesEmitter;
 import ru.geekbrains.java_games.common.bullets.BulletPool;
+import ru.geekbrains.java_games.common.enemies.EnemyPool;
 import ru.geekbrains.java_games.common.explosions.ExplosionPool;
 import ru.geekbrains.java_games.common.stars.TrackingStar;
 import ru.geekuniversity.engine.Base2DScreen;
@@ -25,14 +26,16 @@ public class GameScreen extends Base2DScreen{
     private static final float STAR_HEIGHT = 0.01f;
     private static final int STAR_COUNT = 50;
 
-    private final BulletPool bulletPool = new BulletPool();
+    private BulletPool bulletPool;
     private ExplosionPool explosionPool;
+    private EnemyPool enemyPool;
 
     private Background background;
     private Sprite2DTexture textureBackground;
     private TextureAtlas atlas;
     private MainShip mainShip;
     private TrackingStar[] stars = new TrackingStar[STAR_COUNT];
+    EnemiesEmitter enemiesEmitter;
 
     private Music music;
     private Sound sndLaser;
@@ -52,14 +55,21 @@ public class GameScreen extends Base2DScreen{
         sndLaser = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         sndExplosion = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
 
+
+
         textureBackground = new Sprite2DTexture("textures/bg.png");
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
 
-
+        bulletPool = new BulletPool();
         explosionPool = new ExplosionPool(atlas, sndExplosion);
 
+
         background = new Background(new TextureRegion(textureBackground));
-        mainShip = new MainShip(atlas, bulletPool);
+        mainShip = new MainShip(atlas, bulletPool, explosionPool, worldBounds, sndLaser);
+
+        enemyPool = new EnemyPool(bulletPool, explosionPool, worldBounds, mainShip);
+
+        enemiesEmitter = new EnemiesEmitter(enemyPool, worldBounds, atlas, sndBullet);
 
         TextureRegion starRegion = atlas.findRegion("star");
         for (int i = 0; i < STAR_COUNT; i++) {
@@ -86,8 +96,8 @@ public class GameScreen extends Base2DScreen{
     @Override
     protected void touchDown(Vector2 touch, int pointer) {
         mainShip.touchDown(touch, pointer);
-        Explosion explosion =explosionPool.obtain();
-        explosion.set(0.1f, touch);
+//        Explosion explosion =explosionPool.obtain();
+//        explosion.set(0.1f, touch);
     }
 
     @Override
@@ -131,6 +141,8 @@ public class GameScreen extends Base2DScreen{
 //            explosion.set(0.1f, randomBoomPos);
 //        }
 
+        enemiesEmitter.generateEnemies(deltaTime);
+        enemyPool.updateActiveSprites(deltaTime);
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].update(deltaTime);
         }
@@ -157,6 +169,7 @@ public class GameScreen extends Base2DScreen{
             stars[i].draw(batch);
         }
         bulletPool.drawActiveObjects(batch);
+        enemyPool.drawActiveObjects(batch);
         explosionPool.drawActiveObjects(batch);
         mainShip.draw(batch);
         batch.end();
