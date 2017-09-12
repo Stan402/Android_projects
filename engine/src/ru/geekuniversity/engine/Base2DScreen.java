@@ -13,15 +13,16 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekuniversity.engine.math.MatrixUtils;
 import ru.geekuniversity.engine.math.Rect;
 
+@SuppressWarnings("WeakerAccess")
 public class Base2DScreen implements Screen, InputProcessor{
 
-    private static final float WORLD_HEIGHT = 1f;
+    protected static final float WORLD_HEIGHT = 1f;
 
     protected final Game game;
 
-    private final Rect screenBounds = new Rect(); // границы области
-    private final Rect worldBounds = new Rect();
-    private final Rect glBounds = new Rect(0f, 0f, 1f, 1f);
+    protected final Rect screenBounds = new Rect(); // границы области
+    protected final Rect worldBounds = new Rect();
+    protected final Rect glBounds = new Rect(0f, 0f, 1f, 1f);
 
     protected final Matrix4 matWorldToGL = new Matrix4();
 
