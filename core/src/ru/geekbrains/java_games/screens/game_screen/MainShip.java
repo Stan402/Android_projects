@@ -1,14 +1,12 @@
-package ru.geekbrains.java_games.screens.game;
+package ru.geekbrains.java_games.screens.game_screen;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.geekbrains.java_games.Ship;
-import ru.geekbrains.java_games.pools.BulletPool;
+import ru.geekbrains.java_games.common.Ship;
+import ru.geekbrains.java_games.common.bullets.BulletPool;
 import ru.geekuniversity.engine.math.Rect;
-import ru.geekuniversity.engine.sprites.Sprite;
 
 class MainShip extends Ship{
 

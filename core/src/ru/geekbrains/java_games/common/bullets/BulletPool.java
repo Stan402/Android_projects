@@ -1,8 +1,6 @@
-package ru.geekbrains.java_games.pools;
+package ru.geekbrains.java_games.common.bullets;
 
-import ru.geekbrains.java_games.Bullet;
 import ru.geekuniversity.engine.pool.SpritesPool;
-import ru.geekuniversity.engine.sprites.Sprite;
 
 
 public class BulletPool extends SpritesPool<Bullet> {
@@ -14,6 +12,6 @@ public class BulletPool extends SpritesPool<Bullet> {
 
     @Override
     protected void debugLog() {
-        //System.out.println("BulletPool change active/free: " + activeObjects.size() + "/" + freeObjects.size());
+        System.out.println("BulletPool change active/free: " + activeObjects.size() + "/" + freeObjects.size());
     }
 }

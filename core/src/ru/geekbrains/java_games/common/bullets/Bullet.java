@@ -1,14 +1,10 @@
-package ru.geekbrains.java_games;
+package ru.geekbrains.java_games.common.bullets;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.sprites.Sprite;
-
-/**
- * Created by stan on 08/09/2017.
- */
 
 public class Bullet extends Sprite {
 
@@ -17,7 +13,7 @@ public class Bullet extends Sprite {
     private int damage;
     private Object owner;
 
-    public Bullet() {
+    Bullet() {
         regions = new TextureRegion[1];
     }
 

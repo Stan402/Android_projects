@@ -1,4 +1,4 @@
-package ru.geekbrains.java_games.screens.game;
+package ru.geekbrains.java_games.screens.game_screen;
 
 
 import com.badlogic.gdx.Game;
@@ -10,12 +10,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.geekbrains.java_games.Background;
-import ru.geekbrains.java_games.Explosion;
-import ru.geekbrains.java_games.pools.BulletPool;
-import ru.geekbrains.java_games.pools.ExplosionPool;
-import ru.geekbrains.java_games.screens.stars.Star;
-import ru.geekbrains.java_games.screens.stars.TrackingStar;
+import ru.geekbrains.java_games.common.Background;
+import ru.geekbrains.java_games.common.explosions.Explosion;
+import ru.geekbrains.java_games.common.bullets.BulletPool;
+import ru.geekbrains.java_games.common.explosions.ExplosionPool;
+import ru.geekbrains.java_games.common.stars.TrackingStar;
 import ru.geekuniversity.engine.Base2DScreen;
 import ru.geekuniversity.engine.Sprite2DTexture;
 import ru.geekuniversity.engine.math.Rect;
@@ -109,21 +108,21 @@ public class GameScreen extends Base2DScreen{
         draw();
     }
 
-    private float randomBoomInterval = 3f;
-    private float randomBoomTimer;
-    private final Vector2 randomBoomPos = new Vector2();
+//    private float randomBoomInterval = 3f;
+//    private float randomBoomTimer;
+//    private final Vector2 randomBoomPos = new Vector2();
 
 
     private void update(float deltaTime) {
 
-        randomBoomTimer += deltaTime;
-        if (randomBoomTimer >= randomBoomInterval){
-            randomBoomTimer = 0;
-            Explosion explosion = explosionPool.obtain();
-            randomBoomPos.x = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
-            randomBoomPos.y = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
-            explosion.set(0.1f, randomBoomPos);
-        }
+//        randomBoomTimer += deltaTime;
+//        if (randomBoomTimer >= randomBoomInterval){
+//            randomBoomTimer = 0;
+//            Explosion explosion = explosionPool.obtain();
+//            randomBoomPos.x = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
+//            randomBoomPos.y = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
+//            explosion.set(0.1f, randomBoomPos);
+//        }
 
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i].update(deltaTime);
