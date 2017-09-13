@@ -157,6 +157,7 @@ public class GameScreen extends Base2DScreen{
 
     private void deleteAllDestroyed(){
         bulletPool.freeAllDestroyedActiveObjects();
+        enemyPool.freeAllDestroyedActiveObjects();
         explosionPool.freeAllDestroyedActiveObjects();
     }
 
@@ -183,6 +184,7 @@ public class GameScreen extends Base2DScreen{
         sndLaser.dispose();
         sndExplosion.dispose();
 
+        enemyPool.dispose();
         explosionPool.dispose();
         textureBackground.dispose();
         atlas.dispose();

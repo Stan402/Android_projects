@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.java_games.common.Ship;
 import ru.geekbrains.java_games.common.bullets.BulletPool;
+import ru.geekbrains.java_games.common.explosions.Explosion;
 import ru.geekbrains.java_games.common.explosions.ExplosionPool;
 import ru.geekbrains.java_games.screens.game_screen.MainShip;
 import ru.geekuniversity.engine.math.Rect;
@@ -18,11 +19,13 @@ public class Enemy extends Ship {
     //    private final Vector2 descentV = new Vector2(0f, -0.15f);
     private final Vector2 v0 = new Vector2();
     private final MainShip mainShip;
+    private final ExplosionPool explosionPool;
 //    private State state;
 
     Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, MainShip mainShip) {
         super(bulletPool, explosionPool, worldBounds);
         this.mainShip = mainShip;
+        this.explosionPool = explosionPool;
         v.set(v0);
     }
 
@@ -53,7 +56,29 @@ public class Enemy extends Ship {
 //        state = State.DESCENT;
     }
 
-//    @Override
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        reloadTimer += deltaTime;
+        if (reloadTimer >= reloadInterval) {
+            reloadTimer = 0f;
+            shoot();
+        }
+        if (!isOutside(mainShip)){
+            destroy();
+            Explosion explosion = explosionPool.obtain();
+            explosion.set(0.2f, mainShip.pos);
+        }
+        if (getBottom() < worldBounds.getBottom()) {
+            Explosion explosion = explosionPool.obtain();
+            explosion.set(0.1f, pos);
+            destroy();
+        }
+
+    }
+
+    //    @Override
 //    public void update(float deltaTime) {
 //        super.update(deltaTime);
 //        switch (state) {
