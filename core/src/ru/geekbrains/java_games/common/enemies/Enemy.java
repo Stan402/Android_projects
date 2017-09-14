@@ -61,7 +61,7 @@ public class Enemy extends Ship {
         super.update(deltaTime);
 
         reloadTimer += deltaTime;
-        if (reloadTimer >= reloadInterval) {
+        if ((reloadTimer >= reloadInterval) && (pos.y < worldBounds.getTop())) {
             reloadTimer = 0f;
             shoot();
         }
