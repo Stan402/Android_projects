@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.StringBuilder;
 
 import java.util.ArrayList;
 
@@ -25,11 +27,13 @@ import ru.geekuniversity.engine.Font;
 import ru.geekuniversity.engine.Sprite2DTexture;
 import ru.geekuniversity.engine.math.Rect;
 import ru.geekuniversity.engine.math.Rnd;
+import ru.geekuniversity.engine.utils.StrBuilder;
 
 public class GameScreen extends Base2DScreen{
 
     private static final float STAR_HEIGHT = 0.01f;
     private static final int STAR_COUNT = 50;
+    private static final float FONT_SIZE = 0.02f;
 
     private BulletPool bulletPool;
     private ExplosionPool explosionPool;
@@ -86,7 +90,7 @@ public class GameScreen extends Base2DScreen{
         }
 
         font = new Font("fonts/font1.fnt", "fonts/font1.png");
-        font.setWorldSize(1f);
+        font.setWorldSize(FONT_SIZE);
 
         music.setLooping(true);
         music.play();
@@ -224,11 +228,28 @@ public class GameScreen extends Base2DScreen{
         explosionPool.drawActiveObjects(batch);
         mainShip.draw(batch);
 
-        font.draw(batch, "H", worldBounds.getLeft(), worldBounds.getTop());
+        printInfo();
+
         batch.end();
     }
 
     private int frags;
+
+    private static final String STR_FRAGS = "Frags: ";
+    private StrBuilder sbFrags = new StrBuilder();
+
+    private static final String STR_HP = "HP: ";
+    private StrBuilder sbHP = new StrBuilder();
+
+    private static final String STR_STAGE = "Stage: ";
+    private StrBuilder sbStage = new StrBuilder();
+
+    private void printInfo(){
+        font.draw(batch, sbFrags.clear().append(STR_FRAGS).append(frags), worldBounds.getLeft(), worldBounds.getTop());
+        font.draw(batch, sbHP.clear().append(STR_HP).append(mainShip.getHP()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
+        font.draw(batch, sbStage.clear().append(STR_STAGE).append(enemiesEmitter.getStage()), worldBounds.getRight(), worldBounds.getTop(),Align.right);
+
+    }
 
     @Override
     public void dispose() {
