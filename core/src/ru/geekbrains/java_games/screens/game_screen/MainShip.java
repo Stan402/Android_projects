@@ -121,7 +121,7 @@ public class MainShip extends Ship{
 
     @Override
     public void update(float deltaTime) {
-        pos.mulAdd(v, deltaTime);
+        super.update(deltaTime);
         reloadTimer += deltaTime;
         if (reloadTimer >= reloadInterval){
             reloadTimer = 0f;
@@ -137,7 +137,15 @@ public class MainShip extends Ship{
         }
     }
 
+    public int getHP(){
+        return 0;
+    }
+
     public Vector2 getV() {
         return v;
+    }
+
+    public boolean isBulletCollision (Rect bullet) {
+        return !(bullet.getRight() < getLeft() || bullet.getLeft() > getRight() || bullet.getBottom() > pos.y || bullet.getTop() < getBottom());
     }
 }
