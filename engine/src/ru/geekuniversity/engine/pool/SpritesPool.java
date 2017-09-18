@@ -33,6 +33,14 @@ public abstract class SpritesPool<T extends Sprite> {
         debugLog();
     }
 
+    public void freeAllActiveObjects(){
+        final int cnt = activeObjects.size();
+        for (int i = 0; i < cnt; i++) {
+            freeObjects.add(activeObjects.get(i));
+        }
+        activeObjects.clear();
+    }
+
     public void updateActiveSprites(float deltaTime){
         final int cnt = activeObjects.size();
         for (int i = 0; i < cnt; i++) {
