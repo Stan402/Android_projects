@@ -20,7 +20,7 @@ public class EnemiesEmitter {
 
     private final TextureRegion bulletRegion;
 
-    private static final float ENEMY_SMALL_HEIGHT = 0.08f;
+    private static final float ENEMY_SMALL_HEIGHT = 0.1f;
     private final TextureRegion[] enemySmallRegions;
     private final Vector2 enemySmallV = new Vector2(0f, -0.2f);
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
